@@ -39,7 +39,16 @@ class CommentsController < ApplicationController
     end
   end
 
-  def comment_params
-    params.require(:comment).permit(:body)
+  def destroy
+    article_id = Comment.find(params[:id]).article_id
+    Comment.find(params[:id]).destroy
+    flash[:success] = 'Comment successfully deleted.'
+    redirect_to article_comments_url(article_id)
   end
+
+  private
+
+    def comment_params
+      params.require(:comment).permit(:body)
+    end
 end
